@@ -1,6 +1,6 @@
 function addSoundButtons() {
   const dateLocationContainers = document.querySelectorAll("div.xA0gfb");
-  const dateRegex = /\b(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z]+\s+\d{1,2},\s+\d{4} || (?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z] ||(?:Today|Yesterday|Sun|Mon|Tue|Wed|Thu|Fri|Sat)/; // Simplified date regex
+  const dateRegex = /\b(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z]+\s+\d{1,2},\s+\d{4} || (?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z] ||(?:Today|Yesterday|Sun|Mon|Tue|Wed|Thu|Fri|Sat)/; // Date regex with 3 patterns: 1+ yrs ago, 1+ weeks ago, in recent week
 
   console.log(dateLocationContainers);
   dateLocationContainers.forEach((el) => {
