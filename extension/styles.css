@@ -1,64 +1,48 @@
 body {
-    width: 400px;
-    min-height: 300px;
-    padding: 15px;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    font-family: sans-serif;
   }
   
-  .container {
-    display: flex;
-    flex-direction: column;
+  .popup-container {
+    width: 300px;
+    padding: 16px;
+    background-color: #800000;
+    color: white;
+    border-radius: 12px;
+    box-sizing: border-box;
   }
   
-  h1 {
-    font-size: 20px;
-    margin-bottom: 10px;
+  .icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
   }
   
-  .controls {
-    display: flex;
-    margin: 15px 0;
-    gap: 10px;
+  .icon-large {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    margin-right: 8px;
   }
   
   button {
-    padding: 8px 16px;
-    background-color: #4285f4;
-    color: white;
+    margin-top: 10px;
+    padding: 6px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    background: white;
+    color: #800000;
     cursor: pointer;
   }
   
-  button:hover {
-    background-color: #3367d6;
-  }
-  
-  #clearDataButton {
-    background-color: #db4437;
-  }
-  
-  #clearDataButton:hover {
-    background-color: #c53929;
-  }
-  
-  .status {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border-radius: 4px;
-  }
-  
-  .data-preview {
-    margin-top: 15px;
-    border-top: 1px solid #ccc;
-    padding-top: 15px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  #previewContent {
-    font-family: monospace;
+  pre {
     white-space: pre-wrap;
-    font-size: 12px;
+    word-wrap: break-word;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 10px;
+    max-height: 150px;
+    overflow-y: auto;
   }
