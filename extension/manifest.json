@@ -2,9 +2,17 @@
   "manifest_version": 3,
   "name": "Trip Down Melody Lane",
   "version": "1.0",
-  "description": "A Chrome Extension for interacting with Google Photos.",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["https://photos.google.com/*"],
+  "description": "A Chrome extension to interact with Spotify.",
+  "permissions": [
+    "identity"
+  ],
+  "oauth2": {
+    "client_id": "691dff2a418740d6b26cdb8902a5d13f",
+    "scopes": [
+      "user-read-currently-playing",
+      "user-read-playback-state"
+    ]
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -13,20 +21,15 @@
       "128": "icon.png"
     }
   },
-  "background": {
-    "service_worker": "background.js"
-  },
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  }, 
   "content_scripts": [
     {
-      "matches": ["https://photos.google.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/sound.png"],
-      "matches": ["https://photos.google.com/*"]
+      "matches": ["<all_urls>"], 
+      "js": ["content.js"]
     }
   ]
 }
