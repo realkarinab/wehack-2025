@@ -2,9 +2,15 @@
   "manifest_version": 3,
   "name": "Trip Down Melody Lane",
   "version": "1.0",
-  "description": "A Chrome Extension for interacting with Google Photos.",
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["https://photos.google.com/*"],
+  "description": "Chrome Extension integrating Google Photos and Spotify",
+
+  "permissions": ["activeTab", "scripting", "identity"],
+ 
+  "host_permissions": [
+    "https://photos.google.com/*",
+    "https://accounts.spotify.com/*",
+    "https://api.spotify.com/*"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

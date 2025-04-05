@@ -12,3 +12,12 @@ document.getElementById("get-content")?.addEventListener("click", async () => {
     });
   }
 });
+
+document.getElementById('spotify-login').addEventListener('click', () => {
+  chrome.runtime.sendMessage({ action: 'spotifyAuth' }, (response) => {
+    if (response.accessToken) {
+      console.log('Authenticated with token:', response.accessToken);
+      // Store token and make API requests
+    }
+  });
+});
