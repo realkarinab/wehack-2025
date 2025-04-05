@@ -5,9 +5,7 @@ document.getElementById("get-content")?.addEventListener("click", async () => {
   if (tab.id) {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      function: () => {
-        return document.body.innerText;
-      },
+      function: () => document.body.innerText,
     }, (results) => {
       const content = results?.[0]?.result || "Unable to retrieve content.";
       document.getElementById("page-content").innerText = content;
