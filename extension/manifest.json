@@ -26,5 +26,11 @@
       "js": ["content.js"],
       "run_at": "document_idle"
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/sound.png"],
+      "matches": ["https://photos.google.com/*"]
+    }
   ]
 }
