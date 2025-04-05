@@ -1,18 +1,23 @@
 function addSoundButtons() {
   const dateLocationContainers = document.querySelectorAll("div.xA0gfb");
-  const dateRegex = /\b(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z]+\s+\d{1,2},\s+\d{4}/; // Simplified date regex
+  const dateRegex = /\b(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z]+\s+\d{1,2},\s+\d{4} || (?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z] ||(?:Today|Yesterday|Sun|Mon|Tue|Wed|Thu|Fri|Sat)/; // Simplified date regex
 
+  console.log(dateLocationContainers);
   dateLocationContainers.forEach((el) => {
     const text = el.textContent?.trim();
+    console.log(text);
 
-    if (text && dateRegex.test(text) && !el.querySelector(".sound-btn")) {
+    if ((text && dateRegex.test(text)) && !el.querySelector(".sound-btn")) {
       const btn = createSoundButton(text);
+      console.log("we in this hoe");
       el.appendChild(btn);
     }
   });
 }
 
 function createSoundButton(text) {
+  console.log("we in this hoe");
+
   const btn = document.createElement("button");
   btn.className = "sound-btn";
   
