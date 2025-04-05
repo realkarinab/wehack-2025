@@ -15,20 +15,33 @@ function addSoundButtons() {
 function createSoundButton(text) {
   const btn = document.createElement("button");
   btn.className = "sound-btn";
+  
+  // Apply larger size and margin to the button
   Object.assign(btn.style, {
-    width: "20px",
-    height: "20px",
-    backgroundColor: "#FFA7CA",
+    width: "30px",  // Increase width
+    height: "30px",  // Increase height
+    backgroundColor: "#FFA7CA",  // Pink background
     border: "none",
-    borderRadius: "50%",
+    borderRadius: "50%",  // Circular button
     cursor: "pointer",
     padding: "0",
     display: "inline-block",
     textAlign: "center",
-    lineHeight: "20px",
-    fontSize: "12px",
+    lineHeight: "30px",  // Adjust line height for larger button
+    fontSize: "16px",  // Increase font size for larger text or icon
+    marginLeft: "10px",  // Add margin between text and button
   });
-  btn.textContent = "+";
+  
+  // Create an img element for the sound icon
+  const img = document.createElement("img");
+  img.src = "https://cdn-icons-png.flaticon.com/256/709/709559.png";  // Path to your image
+  img.alt = "Sound icon"; // Alt text for the image
+  img.style.width = "20px";  // Adjust size of the image
+  img.style.height = "20px"; // Adjust size of the image
+  img.style.marginTop = "4px"
+  
+  // Append the image to the button
+  btn.appendChild(img);
 
   btn.addEventListener("click", (e) => {
     e.stopPropagation();
