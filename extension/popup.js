@@ -13,11 +13,25 @@ document.getElementById("get-content")?.addEventListener("click", async () => {
   }
 });
 
-document.getElementById('spotify-login').addEventListener('click', () => {
-  chrome.runtime.sendMessage({ action: 'spotifyAuth' }, (response) => {
-    if (response.accessToken) {
-      console.log('Authenticated with token:', response.accessToken);
-      // Store token and make API requests
-    }
-  });
+document.getElementById("connectSpotify").addEventListener("click", () => {
+  chrome.runtime.sendMessage({ action: "spotify-auth" });
+  fetch("https://api.spotify.com/v1/me", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then(data => console.log(data));
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("connectSpotify");
+  if (button) {
+    button.addEventListener("click", function () {
+      chrome.runtime.sendMessage({ action: "spotify-auth" });
+    });
+  } else {
+    console.error("connectSpotify button not found.");
+  }
+});
+

@@ -1,40 +1,25 @@
-const SPOTIFY_CLIENT_ID = d320778d84384745a25c942836dc6b86;
-const SPOTIFY_SCOPES = 'user-read-private user-read-email';
+const CLIENT_ID = d320778d84384745a25c942836dc6b86;
+const REDIRECT_URI = chrome.identity.getRedirectURL("spotify");
+const SCOPE = "user-read-playback-state user-modify-playback-state";
+const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPE)}&show_dialog=true`;
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'spotifyAuth') {
-    authenticateSpotify(sendResponse);
-    return true;
-  }
-});
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "spotify-auth") {
+    chrome.identity.launchWebAuthFlow(
+      {
+        url: SPOTIFY_AUTH_URL,
+        interactive: true,
+      },
+      function (redirectUrl) {
+        if (chrome.runtime.lastError || !redirectUrl) {
+          console.error("Auth failed", chrome.runtime.lastError);
+          return;
+        }
 
-function authenticateSpotify(callback) {
-  const redirectUrl = `https://${chrome.runtime.id}.chromiumapp.org/`;
-  const authUrl = new URL('https://accounts.spotify.com/authorize');
-  
-  authUrl.searchParams.append('client_id', SPOTIFY_CLIENT_ID);
-  authUrl.searchParams.append('response_type', 'token');
-  authUrl.searchParams.append('redirect_uri', redirectUrl);
-  authUrl.searchParams.append('scope', SPOTIFY_SCOPES);
-
-  chrome.identity.launchWebAuthFlow(
-    { url: authUrl.href, interactive: true },
-    (responseUrl) => {
-      if (chrome.runtime.lastError || !responseUrl) {
-        callback({ error: 'Authentication failed' });
-        return;
+        const params = new URLSearchParams(redirectUrl.split("#")[1]);
+        const token = params.get("access_token");
+        console.log("Spotify Access Token:", token);
       }
-      
-      const hash = new URL(responseUrl).hash.substring(1);
-      const params = new URLSearchParams(hash);
-      callback({
-        accessToken: params.get('access_token'),
-        expiresIn: params.get('expires_in')
-      });
-    }
-  );
-}
-
-chrome.runtime.onInstalled.addListener(() => {
-  console.log("Trip Down Melody Lane installed.");
+    );
+  }
 });
