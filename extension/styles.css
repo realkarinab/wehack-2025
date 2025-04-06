@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif; /* Use Poppins as a close alternative */
   background: linear-gradient(to bottom right, #FFA7CA, #FFC7D0);
 }
 
@@ -82,8 +82,8 @@ pre {
 
 /* Style the song titles */
 #top-tracks-list span {
-  font-family: 'Arial', sans-serif; /* Change font */
-  font-size: 14px; /* Adjust font size */
-  font-weight: bold; /* Make the title bold */
-  color: #333; /* Change text color */
+  font-family: 'Poppins', sans-serif; /* Apply the font to song titles */
+  font-size: 14px;
+  font-weight: 600; /* Semi-bold for Spotify-like styling */
+  color: #333;
 }

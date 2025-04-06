@@ -151,4 +151,3 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 document.addEventListener("DOMContentLoaded", addSoundButtons);
 window.addEventListener("load", addSoundButtons);
-
