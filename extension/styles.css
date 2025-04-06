@@ -167,6 +167,12 @@ p {
   font-style: normal;
 }
 
+.connect-spotify {
+  background-color: rgb(10, 10, 10, 0.0);
+  width: 2px;
+  height: 2px;
+}
+
 #newfont{
   font-family:'Jua';
 }

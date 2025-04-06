@@ -66,7 +66,7 @@ function openPopup(button, text) {
     // Extract the year from the clicked date text
     const dateRegex = /\d{4}/;
     const match = text.match(dateRegex);
-    const yearClicked = match ? parseInt(match[0], 10) : null;
+    const yearClicked = match ? parseInt(match[0], 10) : 2025;
 
     let selectedTracks = [];
 
