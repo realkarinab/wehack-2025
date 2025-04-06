@@ -20,16 +20,21 @@ function createSoundButton(text) {
   Object.assign(btn.style, {
     width: "30px",
     height: "30px",
-    backgroundColor: "#FFA7CA",
-    border: "none",
-    borderRadius: "50%",
+    background: "linear-gradient(to bottom,rgba(255, 199, 208, 0.5),rgba(255, 167, 202, 0.5))", // 50% opacity
+    border: "1.5px solid transparent",
+    borderRadius: "50%", // Makes the button circular
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Optional shadow for button
     cursor: "pointer",
     padding: "0",
+    marginRight: "5px",
+    marginTop: "5px",
+    marginBottom: "5px",
     display: "inline-block",
     textAlign: "center",
     lineHeight: "30px",
     fontSize: "16px",
     marginLeft: "10px",
+    outline: "2px solid #FF82D3", // Add an outline around the button
   });
 
   // Create an img element for the sound icon
