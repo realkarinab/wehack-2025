@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: linear-gradient(to bottom right, #FFA7CA, #FFC7D0);
+  background: linear-gradient(to bottom right, #FFC7D0, #f398c3);
 }
 
 .popup-container {
@@ -10,23 +10,38 @@ body {
   color: white;
   border-radius: 12px;
   box-sizing: border-box;
+
+  
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
   vertical-align: middle;
   margin-right: 8px;
 }
 
 button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  background: white;
   color: #800000;
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.6); /* White with 60% opacity */
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.3s;
+  border-radius: 40px;
+  padding: 0px;
+  margin: 0px;
+  border: 5px solid rgb(255, 255, 255, 0.0);
+}
+
+.playbtn {
+  width: 40px;
+  height: 40px;
+  
+
+}
+.button:hover {
+  background-color: #e644b2;
 }
 
 pre {
@@ -52,4 +67,84 @@ pre {
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: flex-start;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5); /* White with 60% opacity */
+  width:auto;
+  padding: 10px 20px;
+  border-radius: 100px;
+
+  box-shadow: 2px 2px 5px rgb(142, 80, 104, 0.5);
+}
+
+.songContainer {
+  display: flex;
+  justify-content: flex-start;
+  background-color: rgba(255, 255, 255, 0.35); /* White with 45% opacity */
+  width:auto;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 10px 5px;
+  
+  box-shadow: 2px 2px 5px rgb(142, 80, 104, 0.5);
+}
+
+.songInfo {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 5px;
+  /* border: 5px solid red; */
+
+  flex-grow: 1;
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.albumCover {
+  width: 60px; /* Adjust the size of the album cover */
+  height: 60px;
+  border-radius: 15px;
+  margin-right: 10px; /* Space between image and text */
+}
+
+h2 {
+  color:black;
+  font-size: medium;
+  
+  /* border: 2px solid red; */
+}
+
+h3 {
+  color:black;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+h4 {
+  font-size: smaller;
+  color: black;
+  margin: 0;
+  /* margin-top: 5px; */
+}
+
+p {
+  color: #BC7994;
+  font-size: small;
+  /* border: 2px solid red; */
+}
+
+.song-title {
+  
+  margin: 0; /* Remove default margin */
+}
+
+.song-artist {
+  
+  margin: 0; /* Remove default margin */
 }
