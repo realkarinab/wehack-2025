@@ -117,6 +117,7 @@ h2 {
   color:black;
   font-size: medium;
   
+  font-family: 'Jua';
   /* border: 2px solid red; */
 }
 
@@ -147,4 +148,15 @@ p {
 .song-artist {
   
   margin: 0; /* Remove default margin */
+}
+
+@font-face {
+  font-family: 'Jua';
+  src: url('Jua-Regular.eot'), url('Jua-Regular.ttf') format('truetype'), url('Jua-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#newfont{
+  font-family:'Jua';
 }
