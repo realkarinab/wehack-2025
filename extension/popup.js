@@ -1,158 +1,160 @@
-function addSoundButtons() {
-  const dateLocationContainers = document.querySelectorAll("div.xA0gfb");
-  const dateRegex = /\b(?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z]+\s+\d{1,2},\s+\d{4} || (?:Sun|Mon|Tue|Wed|Thu|Fri|Sat),?\s+[A-Z][a-z] ||(?:Today|Yesterday|Sun|Mon|Tue|Wed|Thu|Fri|Sat)/;
+console.log("Popup loaded");
 
-  console.log(dateLocationContainers);
-  dateLocationContainers.forEach((el) => {
-    const text = el.textContent?.trim();
-    console.log(text);
+const clientId = '691dff2a418740d6b26cdb8902a5d13f'; // Replace with your actual client ID
+const redirectUri = chrome.identity.getRedirectURL();
+// Add user-top-read scope to access top tracks
+const scopes = 'user-read-currently-playing user-read-playback-state user-top-read';
 
-    if ((text && dateRegex.test(text)) && !el.querySelector(".sound-btn")) {
-      const btn = createSoundButton(text);
-      console.log("we in this hoe");
-      el.appendChild(btn);
-    }
-  });
-}
+// Wait for DOM content to be fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Use querySelector instead and check if element exists
+  const connectButton = document.getElementById('connect-spotify');
+  const authStatus = document.getElementById('auth-status');
+  
+  // Ensure elements exist before adding event listeners
+  if (connectButton) {
+    connectButton.addEventListener('click', () => {
+      chrome.identity.launchWebAuthFlow({
+        url: `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&response_type=token`,
+        interactive: true
+      }, function(redirect_url) {
+        if (chrome.runtime.lastError || !redirect_url) {
+          // Check if element exists before setting innerText
+          if (authStatus) {
+            authStatus.innerText = 'Authentication failed.';
+          }
+          console.error(chrome.runtime.lastError);
+          return;
+        }
+        
+        const accessToken = redirect_url.split('#access_token=')[1].split('&')[0];
+        localStorage.setItem('spotify_access_token', accessToken);
+        
+        // Check if element exists before setting innerText
+        if (authStatus) {
+          authStatus.innerText = 'Successfully connected to Spotify!';
+        }
+        console.log('Spotify Access Token:', accessToken);
 
-function createSoundButton(text) {
-  console.log("we in this hoe");
+        // Get currently playing track
+        getCurrentlyPlaying(accessToken);
 
-  const btn = document.createElement("button");
-  btn.className = "sound-btn";
-
-  // Apply larger size and margin to the button
-  Object.assign(btn.style, {
-    width: "30px",  // Increase width
-    height: "30px",  // Increase height
-    backgroundColor: "#FFA7CA",  // Pink background
-    border: "none",
-    borderRadius: "50%",  // Circular button
-    cursor: "pointer",
-    padding: "0",
-    display: "inline-block",
-    textAlign: "center",
-    lineHeight: "30px",  // Adjust line height for larger button
-    fontSize: "16px",  // Increase font size for larger text or icon
-    marginLeft: "10px",  // Add margin between text and button
-  });
-
-  // Create an img element for the sound icon
-  const img = document.createElement("img");
-  img.src = "https://cdn-icons-png.flaticon.com/256/709/709559.png";  // Path to your image
-  img.alt = "Sound icon"; // Alt text for the image
-  img.style.width = "20px";  // Adjust size of the image
-  img.style.height = "20px"; // Adjust size of the image
-  img.style.marginTop = "4px";
-
-  // Append the image to the button
-  btn.appendChild(img);
-
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    openPopup(e.target, text);
-  });
-
-  return btn;
-}
-
-function openPopup(button, text) {
-  // Retrieve top tracks from chrome.storage.local
-  chrome.storage.local.get(['shortTermTracks', 'mediumTermTracks', 'longTermTracks'], (result) => {
-    console.log('Short-Term Tracks:', result.shortTermTracks);
-    console.log('Medium-Term Tracks:', result.mediumTermTracks);
-    console.log('Long-Term Tracks:', result.longTermTracks);
-
-    // Extract the year from the clicked date text
-    const dateRegex = /\d{4}/;
-    const match = text.match(dateRegex);
-    const yearClicked = match ? parseInt(match[0], 10) : null;
-
-    let selectedTracks = [];
-
-    // Select tracks based on the clicked year
-    if (yearClicked === 2025 && result.shortTermTracks) {
-      selectedTracks = result.shortTermTracks;
-    } else if (yearClicked === 2024 && result.mediumTermTracks) {
-      selectedTracks = result.mediumTermTracks;
-    } else if (yearClicked && yearClicked < 2024 && result.longTermTracks) {
-      selectedTracks = result.longTermTracks;
-    }
-
-    // Randomly select 3 songs from the selected tracks
-    const randomTracks = getRandomTracks(selectedTracks, 3);
-
-    // Create popup and display song information
-    const popup = document.createElement("div");
-    popup.className = "sound-popup";
-    popup.textContent = `Sound button clicked next to: ${text}`;
-
-    // Append the random tracks data to the popup
-    if (randomTracks.length > 0) {
-      popup.innerHTML += `<h3>Recommended Tracks:</h3><ul>${createTracksList(randomTracks)}</ul>`;
-    }
-
-    // Apply styles to the popup
-    Object.assign(popup.style, {
-      position: "absolute",
-      top: `${button.getBoundingClientRect().top + window.scrollY + button.offsetHeight}px`, // Position it below the button
-      left: `${button.getBoundingClientRect().left + window.scrollX}px`, // Align left with the button
-      backgroundColor: "#fff",
-      border: "1px solid #ccc",
-      padding: "10px",
-      borderRadius: "5px",
-      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      zIndex: "1000", // Make sure the popup is on top
-      width: "350px",  // Adjust width to fit the song details and button
-      textAlign: "left", // Left align the song details
+        // Get user's top tracks (short-term, medium-term, long-term)
+        getTopTracks(accessToken);
+      });
     });
-
-    // Append the popup to the body
-    document.body.appendChild(popup);
-
-    // Add event listener to close the popup when clicking outside
-    document.addEventListener('click', function closePopup(event) {
-      if (!popup.contains(event.target) && event.target !== button) {
-        document.body.removeChild(popup);
-        document.removeEventListener('click', closePopup);
-      }
-    });
-  });
-}
-
-function getRandomTracks(tracks, number) {
-  // Shuffle the tracks array and return the first 'number' tracks
-  const shuffled = tracks.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, number);
-}
-
-function createTracksList(tracks) {
-  return tracks.map((track) => {
-    const playButtonId = `play-button-${track.id}`;
-    return `
-      <li>
-        <img src="${track.album.images[0].url}" alt="${track.name}" style="width: 50px; height: 50px; margin-right: 10px; vertical-align: middle;"/>
-        <span style="vertical-align: middle;">${track.name} by ${track.artists[0].name}</span>
-        <button id="${playButtonId}" data-uri="${track.uri}" style="margin-left: 10px; padding: 5px 10px;">Play</button>
-      </li>
-    `;
-  }).join('');
-}
-
-// Add event listener for play button clicks (delegated to document)
-document.addEventListener('click', function(event) {
-  if (event.target && event.target.matches('button[id^="play-button-"]')) {
-    const spotifyUri = event.target.dataset.uri;
-    if (spotifyUri) {
-      // Send a message to the background script to play the track
-      chrome.runtime.sendMessage({ action: 'playTrack', uri: spotifyUri });
-    }
+  } else {
+    console.error("Connect button not found in the DOM");
   }
 });
 
+function getCurrentlyPlaying(accessToken) {
+  fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+  .then(response => {
+    if (!response.ok && response.status !== 204) {
+      throw new Error(`Spotify API error: ${response.status} ${response.statusText}`);
+    }
+    // Spotify returns 204 No Content when nothing is playing
+    if (response.status === 204) {
+      console.log('No track is currently playing.');
+      return null;
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data) {
+      console.log('Currently Playing:', data);
+      // Update UI with currently playing track if needed
+      const currentTrackElement = document.getElementById('current-track');
+      if (currentTrackElement && data.item) {
+        currentTrackElement.innerText = `Now Playing: ${data.item.name} by ${data.item.artists[0].name}`;
+      }
+    }
+  })
+  .catch(error => console.error('Error fetching currently playing:', error));
+}
 
-const observer = new MutationObserver(() => addSoundButtons());
-observer.observe(document.body, { childList: true, subtree: true });
+function getTopTracks(accessToken) {
+  // Arrays to store the top tracks for each time range
+  let shortTermTracks = [];
+  let mediumTermTracks = [];
+  let longTermTracks = [];
 
-document.addEventListener("DOMContentLoaded", addSoundButtons);
-window.addEventListener("load", addSoundButtons);
+  // Fetching short-term tracks (last 4 weeks)
+  fetchTopTracks('short_term', accessToken)
+    .then(tracks => shortTermTracks = tracks)
+    .then(() => fetchTopTracks('medium_term', accessToken))
+    .then(tracks => mediumTermTracks = tracks)
+    .then(() => fetchTopTracks('long_term', accessToken))
+    .then(tracks => longTermTracks = tracks)
+    .then(() => {
+      // At this point, all tracks have been fetched
+      console.log('Short-Term Tracks:', shortTermTracks);
+      console.log('Medium-Term Tracks:', mediumTermTracks);
+      console.log('Long-Term Tracks:', longTermTracks);
+      
+      storeTopTracks(shortTermTracks, mediumTermTracks, longTermTracks);
+      
+      // Update UI with top tracks if needed
+      updateTopTracksUI(shortTermTracks, mediumTermTracks, longTermTracks);
+    })
+    .catch(error => console.error('Error fetching top tracks:', error));
+}
+
+function storeTopTracks(shortTerm, mediumTerm, longTerm) {
+  chrome.storage.local.set({
+    shortTermTracks: shortTerm,
+    mediumTermTracks: mediumTerm,
+    longTermTracks: longTerm
+  }, () => {
+    console.log('Top tracks saved to storage');
+  });
+}
+
+function updateTopTracksUI(shortTermTracks, mediumTermTracks, longTermTracks) {
+  // Example function to update UI elements if they exist
+  const shortTermElement = document.getElementById('short-term-tracks');
+  const mediumTermElement = document.getElementById('medium-term-tracks');
+  const longTermElement = document.getElementById('long-term-tracks');
+  
+  if (shortTermElement && shortTermTracks.length > 0) {
+    shortTermElement.innerHTML = createTracksList(shortTermTracks);
+  }
+  
+  if (mediumTermElement && mediumTermTracks.length > 0) {
+    mediumTermElement.innerHTML = createTracksList(mediumTermTracks);
+  }
+  
+  if (longTermElement && longTermTracks.length > 0) {
+    longTermElement.innerHTML = createTracksList(longTermTracks);
+  }
+}
+
+function createTracksList(tracks) {
+  return tracks.slice(0, 10).map((track, index) => 
+    `<li>${index + 1}. ${track.name} by ${track.artists[0].name}</li>`
+  ).join('');
+}
+
+function fetchTopTracks(timeRange, accessToken) {
+  // Fetch the top tracks for a specific time range
+  return fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=50`, {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Spotify API error: ${response.status} ${response.statusText}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(`Top Tracks (${timeRange}):`, data);
+    return data.items; // Return the list of tracks
+  });
+}
