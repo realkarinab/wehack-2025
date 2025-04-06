@@ -80,6 +80,7 @@ function openPopup(button, text) {
     // Create popup and display song information
     const popup = document.createElement("div");
     popup.className = "sound-popup";
+    // popup.style.border = "5px solid red";
 
     popup.innerHTML = `
   <head> <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet"> </head>
@@ -108,7 +109,7 @@ Object.assign(popup.style, {
   borderRadius: "5px",
   boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   zIndex: "1000", // Make sure the popup is on top
-  width: "270px",
+  width: "320px",
   textAlign: "center",
   borderImage: "linear-gradient(to bottom,rgb(255, rgb(255, 142, 159)), #FF8E98) 1", // Gradient border
   
@@ -145,6 +146,10 @@ function createTracksList(tracks) {
     listItem.style.display = 'flex';
     listItem.style.alignItems = 'center';
     listItem.style.marginBottom = '10px';
+    // listItem.style.border = '3px solid red';
+    listItem.style.margin = "0 20px";
+    listItem.style.padding = '0';
+    
 
     const img = document.createElement('img');
     img.src = track.album.images[0].url;

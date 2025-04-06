@@ -1,6 +1,6 @@
 console.log("Popup loaded");
 
-const clientId = '691dff2a418740d6b26cdb8902a5d13f'; // Replace with your actual client ID
+const clientId = 'd320778d84384745a25c942836dc6b86'; // Replace with your actual client ID
 const redirectUri = chrome.identity.getRedirectURL();
 // Add user-top-read scope to access top tracks
 const scopes = 'user-read-currently-playing user-read-playback-state user-top-read';
