@@ -53,6 +53,11 @@ pre {
   background-position: center;
   cursor: pointer;
 }
+
+#top-tracks-list {
+  padding-left: 20px; /* Move the entire list to the right */
+}
+
 /* Style the track list */
 #top-tracks-list ol {
   list-style: none; /* Remove default list styling */
@@ -70,9 +75,8 @@ pre {
 #top-tracks-list img {
   width: 50px;
   height: 50px;
-  border-radius: 50%; /* Make the image circular */
+  border-radius: 8px; /* Rounded corners */
   margin-right: 10px;
-  border: 2px solid #ccc; /* Add a border */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow */
 }
 
