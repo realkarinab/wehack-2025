@@ -17,8 +17,12 @@ body {
 .icon {
   width: 40px;
   height: 40px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   margin-right: 8px;
+  vertical-align: text-bottom;
+  padding-top: 7px;
+
+  /* border: 5px red solid; */
 }
 
 button {
@@ -113,11 +117,16 @@ pre {
   margin-right: 10px; /* Space between image and text */
 }
 
-h2 {
-  color:black;
-  font-size: medium;
+h2, h3, h4, p {
   
   font-family: 'Jua';
+  font-weight: normal;
+}
+
+h2 {
+  color:black;
+  font-size: 18px;
+  
   /* border: 2px solid red; */
 }
 
@@ -125,10 +134,11 @@ h3 {
   color:black;
   margin-top: 5px;
   margin-bottom: 0;
+  font-size: medium;
 }
 
 h4 {
-  font-size: smaller;
+  font-size: small;
   color: black;
   margin: 0;
   /* margin-top: 5px; */
@@ -136,7 +146,7 @@ h4 {
 
 p {
   color: #BC7994;
-  font-size: small;
+  font-size: medium;
   /* border: 2px solid red; */
 }
 
