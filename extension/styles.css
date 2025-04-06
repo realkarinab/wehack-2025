@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif; /* Use Poppins as a close alternative */
-  background: linear-gradient(to bottom right, #FFA7CA, #FFC7D0);
+  font-family: sans-serif;
+  background: linear-gradient(to bottom right, #FFC7D0, #f398c3);
 }
 
 .popup-container {
@@ -10,23 +10,42 @@ body {
   color: white;
   border-radius: 12px;
   box-sizing: border-box;
+
+  
 }
 
 .icon {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
+  width: 40px;
+  height: 40px;
+  /* vertical-align: middle; */
   margin-right: 8px;
+  vertical-align: text-bottom;
+  padding-top: 7px;
+
+  /* border: 5px red solid; */
 }
 
 button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  background: white;
   color: #800000;
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.6); /* White with 60% opacity */
+  width: 50px;
+  height: 50px;
+  transition: background-color 0.3s;
+  border-radius: 40px;
+  padding: 0px;
+  margin: 0px;
+  border: 5px solid rgb(255, 255, 255, 0.0);
+}
+
+.playbtn {
+  width: 40px;
+  height: 40px;
+  
+
+}
+.button:hover {
+  background-color: #e644b2;
 }
 
 pre {
@@ -54,36 +73,116 @@ pre {
   cursor: pointer;
 }
 
-#top-tracks-list {
-  padding-left: 20px; /* Move the entire list to the right */
-}
-
-/* Style the track list */
-#top-tracks-list ol {
-  list-style: none; /* Remove default list styling */
-  padding: 0;
-  margin: 0;
-}
-
-#top-tracks-list li {
+.titleContainer {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  justify-content: flex-start;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5); /* White with 60% opacity */
+  width:auto;
+  padding: 10px 20px;
+  border-radius: 100px;
+
+  box-shadow: 2px 2px 5px rgb(142, 80, 104, 0.5);
 }
 
-/* Style the album images */
-#top-tracks-list img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px; /* Rounded corners */
-  margin-right: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow */
+.songContainer {
+  display: flex;
+  justify-content: flex-start;
+  background-color: rgba(255, 255, 255, 0.35); /* White with 45% opacity */
+  width:auto;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 10px 5px;
+  
+  box-shadow: 2px 2px 5px rgb(142, 80, 104, 0.5);
 }
 
-/* Style the song titles */
-#top-tracks-list span {
-  font-family: 'Poppins', sans-serif; /* Apply the font to song titles */
-  font-size: 14px;
-  font-weight: 600; /* Semi-bold for Spotify-like styling */
-  color: #333;
+.songInfo {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 5px;
+  /* border: 5px solid red; */
+
+  flex-grow: 1;
+  display: flex;
+  padding: 0;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.albumCover {
+  width: 60px; /* Adjust the size of the album cover */
+  height: 60px;
+  border-radius: 15px;
+  margin-right: 10px; /* Space between image and text */
+}
+
+h2, h3, h4, p {
+  
+  font-family: 'Jua';
+  font-weight: normal;
+}
+
+h2 {
+  color:black;
+  font-size: 18px;
+  
+  /* border: 2px solid red; */
+}
+
+h3 {
+  color:black;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-size: medium;
+}
+
+h4 {
+  font-size: small;
+  color: black;
+  margin: 0;
+  /* margin-top: 5px; */
+}
+
+p {
+  color: #BC7994;
+  font-size: medium;
+  /* border: 2px solid red; */
+}
+
+.song-title {
+  
+  margin: 0; /* Remove default margin */
+}
+
+.song-artist {
+  
+  margin: 0; /* Remove default margin */
+}
+
+@font-face {
+  font-family: 'Jua';
+  src: url('Jua-Regular.eot'), url('Jua-Regular.ttf') format('truetype'), url('Jua-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#newfont{
+  font-family:'Jua';
+}
+
+
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between; /* Space between elements */
+  align-items: center; /* Vertically center content */
+  background-color: rgba(255, 255, 255, 0.5); /* White with 60% opacity */
+  width: 100%; /* Set a consistent width */
+  max-width: 400px; /* Optional: Limit the maximum width */
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(142, 80, 104, 0.5); /* Subtle shadow */
+  margin-bottom: 10px; /* Add spacing between songs */
+  box-sizing: border-box; /* Ensure padding is included in the width/height */
 }
