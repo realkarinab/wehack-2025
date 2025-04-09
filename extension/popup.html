@@ -1,51 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Trip Down Melody Lane</title>
     <link rel="stylesheet" href="styles.css" />
     <script defer src="popup.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="popup-container">
-      <!-- <button id="get-content">Get Page Content</button> -->
         <div class="titleContainer">
-          <img src="icon.png" alt="icon" class="icon"/>
-          <h2>Trip Down Melody Lane </h2>
+            <img src="icon.png" alt="icon" class="icon"/>
+            <h2>Trip Down Melody Lane</h2>
         </div>
 
         <br>
         <h3>Recently revisited songs:</h3>
-
-        <div class="songContainer">
-          <img src="/assets/song1.png" class="albumCover">
-          <div class="songInfo">
-              <h2 class="song-title">APT.</h3>
-              <p class="song-artist">ROSE, Bruno Mars</p>
-          </div>
-          <button class="play-btn"><img src="/assets/playbutton.png" class="playbtn"></button>
-        </div>
-        <div class="songContainer">
-          <img src="/assets/image2.png" class="albumCover">
-          <div class="songInfo">
-              <h2 class="song-title">Starboy</h3>
-              <p class="song-artist">The Weeknd</p>
-          </div>
-          <button class="play-btn"><img src="/assets/playbutton.png" class="playbtn"></button>
-        </div>
+        <!-- Dynamic song containers will be inserted here -->
+        <div id="revisited-songs-container"></div>
 
         <br>
         <h3>Try something new!</h3>
         <h4>Based on revisited, we recommend:</h4>
-        <div class="songContainer">
-          <img src="/assets/song3.png" class="albumCover">
-          <div class="songInfo">
-              <h2 class="song-title">If you say I love you</h3>
-              <p class="song-artist">BOYNEXTDOOR</p>
-          </div>
-          <button class="play-btn"><img src="/assets/playbutton.png" class="playbtn"></button>
-        </div>
-        <button id="connect-spotify" class="connect-spotify"></button>
+        <!-- Recommendations will be inserted here -->
+        <div id="recommended-songs-container"></div>
 
+        <button id="connect-spotify" class="connect-spotify"></button>
     </div>
-  </body>
+</body>
 </html>

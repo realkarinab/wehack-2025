@@ -1,6 +1,6 @@
 console.log("Popup loaded");
 
-const clientId = 'd320778d84384745a25c942836dc6b86'; // Replace with your actual client ID
+const clientId = '691dff2a418740d6b26cdb8902a5d13f'; // Replace with your actual client ID
 const redirectUri = chrome.identity.getRedirectURL();
 // Add user-top-read scope to access top tracks
 const scopes = 'user-read-currently-playing user-read-playback-state user-top-read';
@@ -158,3 +158,139 @@ function fetchTopTracks(timeRange, accessToken) {
     return data.items; // Return the list of tracks
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Load both short-term and long-term tracks from Chrome storage
+  chrome.storage.local.get(['shortTermTracks', 'longTermTracks'], function(result) {
+      const shortTermTracks = result.shortTermTracks || [];
+      const longTermTracks = result.longTermTracks || [];
+      
+      // Display 2 random songs from short-term tracks for recently revisited
+      // Display recently revisited songs (first 2 tracks)
+      populateSongContainers('revisited-songs-container', shortTermTracks.slice(9, 11));
+      
+      // Display 1 random song from long-term tracks for recommendations
+      const randomRecommendedTracks = getRandomTracks(longTermTracks, 1);
+      populateSongContainers('recommended-songs-container', randomRecommendedTracks);
+  });
+});
+
+/**
+* Select a specific number of random tracks from an array of tracks
+* @param {Array} tracks - Array of track objects
+* @param {number} count - Number of random tracks to select
+* @returns {Array} - Array of randomly selected tracks
+*/
+function getRandomTracks(tracks, count) {
+  // Return empty array if tracks is empty or undefined
+  if (!tracks || tracks.length === 0) {
+      return [];
+  }
+  
+  // Return all tracks if count is greater than available tracks
+  if (count >= tracks.length) {
+      return [...tracks];
+  }
+  
+  // Shuffle the tracks array and take the first 'count' elements
+  const shuffled = [...tracks].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+function populateSongContainers(containerId, tracks) {
+  const container = document.getElementById(containerId);
+  
+  // Clear any existing content
+  container.innerHTML = '';
+  
+  // If no tracks are available
+  if (!tracks || tracks.length === 0) {
+      container.innerHTML = '<p>No tracks available. Connect to Spotify to see your songs.</p>';
+      return;
+  }
+  
+  // Create song containers for each track
+  tracks.forEach(track => {
+      const songContainer = createSongContainer(track);
+      container.appendChild(songContainer);
+  });
+}
+
+function createSongContainer(track) {
+  // Create the main container div
+  const songContainer = document.createElement('div');
+  songContainer.className = 'songContainer';
+  
+  // Create album cover image
+  const albumCover = document.createElement('img');
+  albumCover.src = track.album.images[0].url;
+  albumCover.className = 'albumCover';
+  
+  // Create song info container
+  const songInfo = document.createElement('div');
+  songInfo.className = 'songInfo';
+  
+  // Create song title
+  const songTitle = document.createElement('h2');
+  songTitle.className = 'song-title';
+  songTitle.textContent = track.name;
+  
+  // Create artist name
+  const songArtist = document.createElement('p');
+  songArtist.className = 'song-artist';
+  songArtist.textContent = track.artists.map(artist => artist.name).join(', ');
+  
+  // Create play button link
+  const playLink = document.createElement('a');
+  playLink.href = track.external_urls.spotify;
+  playLink.target = '_blank';
+  
+  const playButton = document.createElement('button');
+  playButton.className = 'play-btn';
+  
+  const playButtonImg = document.createElement('img');
+  playButtonImg.src = '/assets/playbutton.png';
+  playButtonImg.className = 'playbtn';
+  
+  // Assemble the components
+  playButton.appendChild(playButtonImg);
+  playLink.appendChild(playButton);
+  songInfo.appendChild(songTitle);
+  songInfo.appendChild(songArtist);
+  
+  songContainer.appendChild(albumCover);
+  songContainer.appendChild(songInfo);
+  songContainer.appendChild(playLink);
+  
+  return songContainer;
+}
+
+
+function getRecommendations(accessToken) {
+  const seedTracks = ['5YqEzk3C5c3UZ1D5fJUlXA', '2vPMoMDXxu9uX1igWZmXSG'];
+  const url = `https://api.spotify.com/v1/recommendations?seed_tracks=${seedTracks.join(',')}&limit=5`;
+
+  fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Spotify Recommendations API error: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Recommended Songs:', data.tracks);
+      // Optional: Display recommended songs in popup
+      populateSongContainers('recommended-songs-container', data.tracks);
+    })
+    .catch(error => {
+      console.error('Error fetching recommendations:', error);
+    });
+}
+
+
